@@ -1,0 +1,70 @@
+#include <iostream>
+#include <cstring>
+#include <cstdlib>
+using namespace std;
+
+int main()
+{
+	char laiks[10];
+	char stundas[2];
+	char minutes[2];
+	char sekundes[2];
+	int pareizi;
+
+	do   // cikls, lai parbaudiitu laiku uz korektumu
+	{
+		cout << "Ievadiet laiku formata: hh:mm:ss" << endl;
+        gets(laiks);    //  pieprasaam laiku
+        
+        strncpy(stundas, laiks, 2);    // stundas parversham uz int
+        stundas[2] = '\0';
+        int stundas_check = atoi(stundas);
+        
+        strncpy(minutes, laiks + 3, 5);  // minutes parversham uz int
+        minutes[2] = '\0';
+        int minutes_check = atoi(minutes);
+        
+        strncpy(sekundes, laiks + 6, 7);   // sekundes parversham uz int
+        sekundes[2] = '\0';
+        int sekundes_check = atoi(sekundes);
+           
+        if(strlen(laiks) != 8)    // simbolu skaitam jaabuut 8, ja nee, jaievada velreiz
+        {
+        	cout << "Nepareizs formats. Jabut 8 simboliem" << endl;
+        	pareizi = 0;
+        	continue;
+		}
+		else if(laiks[2] != ':' || laiks[5] != ':'  )   // laiku jaatdala ar ":", ja nee, jaievada velreiz
+		{
+        	cout << "Nepareizs formats. Laiku jaatdala ar ':' " << endl;
+        	pareizi = 0;
+		}
+		// parbauda vai ir ievadiiti cipari. Izmantoju if metodi "for" vietaa.
+		
+		else if((laiks[0] != '0' && laiks[0] != '1' && laiks[0] != '2' && laiks[0] != '3' && laiks[0] != '4' && laiks[0] != '5' && laiks[0] != '6' && laiks[0] != '7' && laiks[0] != '8' && laiks[0] != '9')
+		|| (laiks[1] != '0' && laiks[1] != '1' && laiks[1] != '2' && laiks[1] != '3' && laiks[1] != '4' && laiks[1] != '5' && laiks[1] != '6' && laiks[1] != '7' && laiks[1] != '8' && laiks[1] != '9')
+		|| (laiks[3] != '0' && laiks[3] != '1' && laiks[3] != '2' && laiks[3] != '3' && laiks[3] != '4' && laiks[3] != '5' && laiks[3] != '6' && laiks[3] != '7' && laiks[3] != '8' && laiks[3] != '9')
+		|| (laiks[4] != '0' && laiks[4] != '1' && laiks[4] != '2' && laiks[4] != '3' && laiks[4] != '4' && laiks[4] != '5' && laiks[4] != '6' && laiks[4] != '7' && laiks[4] != '8' && laiks[4] != '9')
+		|| (laiks[6] != '0' && laiks[6] != '1' && laiks[6] != '2' && laiks[6] != '3' && laiks[6] != '4' && laiks[6] != '5' && laiks[6] != '6' && laiks[6] != '7' && laiks[6] != '8' && laiks[6] != '9')
+		|| (laiks[7] != '0' && laiks[7] != '1' && laiks[7] != '2' && laiks[7] != '3' && laiks[7] != '4' && laiks[7] != '5' && laiks[7] != '6' && laiks[7] != '7' && laiks[7] != '8' && laiks[7] != '9'))
+		{
+        	cout << "Nepareizs formats. Jaizmanto tikai cipari" << endl;
+        	pareizi = 0;
+		}
+		else if(stundas_check > 23 || minutes_check > 59 || sekundes_check > 59 )  // stundas, minutes uz sekundes, kuras tika parverstas int, tiek parbaudiitas uz laika formaatu
+		{
+        	cout << "Nepareizs laiks " << endl;
+        	pareizi = 0;
+		}
+		
+		else   // ja viss ir pareizi
+		pareizi = 1;
+		
+	}
+	while(pareizi !=1);
+	
+	cout << "Pareizi"  << endl;
+	
+	system("pause");
+	return 0;
+}
