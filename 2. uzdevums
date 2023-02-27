@@ -1,0 +1,114 @@
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+#include <conio.h>
+
+using namespace std;
+
+int main()
+{
+	cout << endl << "         Vardu mineeshanas speele" << endl;
+	cout << endl << "         Katrs neuzmineets burts ir viens soda punkts";
+	cout << endl << "         10 soda punkti - speele zaudeeta";
+	cout << endl << "         Kopaa 20 vaardi";
+	cout << endl << "         Iziet no speeles ar '0'" << endl << endl;
+	
+	srand(time(0));
+	int check = 0;
+	int check_burts;
+	int punkti = 0;
+	int check_punkti = 0;
+	int uzmineti_vardi = 0;
+	int uzminets = 0;
+	int garums = 0; 
+	int burta_skaits = -1;
+	int nonemt_vardu = 0;
+	
+	srand(time(0));
+	string dots = ".........................";
+	string paslepts_vards;
+	string parbaude;
+	string guess;
+	string burts;
+	
+	string vardi[20] = {"manta", "suns", "cipars", "pipars", "lelle", "pasaule", "upe",
+						 "maize", "cena", "zeme", "liels", "mazs", "klauns", "cirks", 
+						 "medus", "radio", "kontinents", "klepus", "ledusskapis", "dators" };
+	
+	do                                                         // cikls jaunu vaardu genereeshanai, un speeles iznaakumam
+	{
+		nonemt_vardu =  rand() % 20;                             // gadiijuma vaardu generators
+		string vards = vardi[nonemt_vardu];						// papildus mainigais, lai izdzestu vardu no massiiva
+		garums = vards.length();								// vaarda garums, lai: zinaatu cik punktus iekopeet, lai zinaatu, kad jaamaina vaardu peec taa uzmineeshanas
+		paslepts_vards = dots.substr(0, garums);				// punkti aizvieto iisto vaardu
+	//	cout << vards << endl;
+			if(vards != " ")									// izmantoju if funkciju, lai neatkaartotos vaardi. Atsauce uz 107 liiniju (shis nav optimaals variants, bet nezinaaju, kaa izdzeests vaardu pavisam)
+			{
+				do												// cikls vaarda mineeshanai
+				{		
+					cout << paslepts_vards <<endl;              // izvadam pasleepto vaardu
+					parbaude = paslepts_vards;                  // papildus mainiigais - kad nejaushi nospiezh jau uzmineeto burtu, lai neizjauktu seciibu, un programma zinaatu, kad jaamaina jauvu vaardu. Atsauce uz 63 liiniju
+					cout << "Soda punkti: " << punkti << endl;			
+					burts = getch();                            // burtu ievade bez enter
+					cout << burts << endl;
+					do                                          // cikls burtu mekleeshanai vaardaa
+					{
+						check_burts = vards.find(burts, burta_skaits + 1);	// meklee burtu
+						if(check_burts != -1)                               // -1 = ja nav, taatad jebkursh cits skaitlis noraada, ka burts ir
+						{
+							paslepts_vards.replace(check_burts, 1, burts);  // nomaina punktu burtu. Taa kaa ir cikls, atrod visus vienaados burtus vaardss
+							if(check_burts != -1)
+								check_punkti = -1;				 // nonjem punktu, ja uzmneets viens vaards vai vairaaki (veelaak punkts tiks pieskaitiits un noliidzinaasies)
+							if(paslepts_vards != parbaude)        
+								++ uzminets;					// nepiecieshams, lai programma zin, kad uzmneetu burtu skaits ir vienaads ar vaarda garumu
+						}
+						burta_skaits = check_burts;           // nepieciesams, ja ir divi vienaadi burti vaardss
+					}
+					while(check_burts != -1);
+					
+					if(check_burts == -1)                      // ja burta nav, pieskaita punktu, vai noliidzina, ja burts ir
+						punkti = punkti + 1 + check_punkti;
+						check_punkti = 0;                      // nepieciesamhs, lai katru reizi nenonjemtu punktu
+					if (punkti == 10)                         // ja sakraati 10 soda punkti
+					{
+						burts = "0";
+						cout << "Jus zaudejat. Uzmineto vardu skaits: " << uzmineti_vardi << endl;    // Izvada uzmineeto vaardu skaitu
+						check = 1;
+					}
+					else if(uzminets == garums)         // ja uzmineets vaards
+					{
+						burts = "0";
+						++uzmineti_vardi;
+						cout << paslepts_vards <<endl;
+						cout << "Vards uzminets" << endl << endl;
+						punkti = punkti -5;              // nonjem 5 punkti
+					}
+					else if(burts == "0")              // lai izietu no speeles
+					{
+						cout << "Speles beigas" << endl;
+						check = 1;
+					}
+				}
+				while (burts != "0");		
+			}
+			
+		if(uzmineti_vardi == 19)                    // ja uzmin visus vaardus
+		{
+			cout << "!!! Jus uzvareejaat !!!" << endl;
+			check = 1;
+		}
+		else if(uzminets == garums)                // pazinjojums nakamajam vardam, ja uzmin vaardu
+			cout << "Nakamais vards" << endl;
+		
+		if(punkti < 0)                             // punktu skaidts nevar buut negatiivs
+			punkti = 0;
+			
+		vardi[nonemt_vardu] = " ";                        // Vaardu aizstaajam at " ", lai to vairs neizveeleetos
+		uzminets = 0;		
+	}
+	while(check != 1);
+
+	system("pause");
+	return 0;
+}
